@@ -46,7 +46,7 @@ def search_for_artist(token, nome_artista):
     return json_result[0]
 
 #buscar por musicas famosas do artista com a url e dados passado por parametro
-def get_songs_by_artist(token, artist_id):
+def get_songsnome_by_artist(token, artist_id):
     url = f"https://api.spotify.com/v1/artists/{artist_id}/top-tracks?country=US"
     headers = get_auth_hearder(token)
     result = requests.get(url, headers=headers)
@@ -55,12 +55,21 @@ def get_songs_by_artist(token, artist_id):
     
 token = get_token()
 print(token)
-result = search_for_artist(token, "ACDC")
+pesquisa = input("Digite o nome da banda: ")
+result = search_for_artist(token, pesquisa)
 artist_id = result["id"]
-musicas = get_songs_by_artist(token, artist_id)
-print(musicas)
+musicas = get_songsnome_by_artist(token, artist_id)
+#print(musicas[0]['artists'][0]['external_urls']['spotify'])
+
 
 #lista todas as top musicas 
+print("Nome das top musicas mais ouvidas no spotify")
 for i, musica in enumerate(musicas):
     print(i + 1, musica['name'])
+
+
+print("Links das Musicas mais ouvidas no spotify")    
+#lista de todos os links para musicas
+for i, links in enumerate(musicas):
+    print(i + 1, links['artists'][0]['external_urls']['spotify'])
     
